@@ -1,0 +1,22 @@
+version = 1
+
+
+[install]
+python3.pkg-path = "python3"
+python3.version = "^3.8.1"
+poetry.pkg-path = "poetry"
+
+[build]
+dolphie.version = "20250607"
+dolphie.description = "Your single pane of glass for real-time analytics into MySQL/MariaDB & ProxySQL"
+dolphie.command = '''
+  poetry install --no-root --no-interaction --no-ansi && \
+    poetry build --output=$out
+
+  mkdir -p "$out/bin"
+  
+  echo '#!/usr/bin/env bash' > $out/bin/dolphie
+  echo 'exec poetry run dolphie' >> $out/bin/dolphie
+
+  chmod 755 $out/bin/dolphie
+'''
